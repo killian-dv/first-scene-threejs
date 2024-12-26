@@ -4,33 +4,11 @@ import "./style.css";
 const scene = new THREE.Scene();
 
 // object
-const group = new THREE.Group();
-group.position.y = 1;
-scene.add(group);
-
-const cube1 = new THREE.Mesh(
+const mesh = new THREE.Mesh(
   new THREE.BoxGeometry(1, 1, 1),
   new THREE.MeshBasicMaterial({ color: "red" })
 );
-group.add(cube1);
-
-const cube2 = new THREE.Mesh(
-  new THREE.BoxGeometry(1, 1, 1),
-  new THREE.MeshBasicMaterial({ color: "green" })
-);
-cube2.position.x = -2;
-group.add(cube2);
-
-const cube3 = new THREE.Mesh(
-  new THREE.BoxGeometry(1, 1, 1),
-  new THREE.MeshBasicMaterial({ color: "blue" })
-);
-cube3.position.x = 2;
-group.add(cube3);
-
-// axes helper
-const axesHelper = new THREE.AxesHelper();
-scene.add(axesHelper);
+scene.add(mesh);
 
 // sizes
 const sizes = {
