@@ -27,4 +27,25 @@ scene.add(camera);
 const canvas = document.querySelector("#webgl");
 const renderer = new THREE.WebGLRenderer({ canvas });
 renderer.setSize(sizes.width, sizes.height);
-renderer.render(scene, camera);
+
+// time
+let time = Date.now();
+
+// animation
+const loop = () => {
+  // time
+  const currentTime = Date.now();
+  const deltaTime = currentTime - time;
+  time = currentTime;
+
+  // update
+  mesh.rotation.y += 0.01 * deltaTime;
+
+  // render
+  renderer.render(scene, camera);
+
+  // request animation frame
+  window.requestAnimationFrame(loop);
+};
+
+loop();
