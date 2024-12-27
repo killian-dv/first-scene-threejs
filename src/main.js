@@ -6,7 +6,7 @@ const scene = new THREE.Scene();
 
 // object
 const mesh = new THREE.Mesh(
-  new THREE.BoxGeometry(1, 1, 1),
+  new THREE.BoxGeometry(1, 1, 1, 5, 5, 5),
   new THREE.MeshBasicMaterial({ color: "red" })
 );
 scene.add(mesh);
@@ -19,7 +19,10 @@ const sizes = {
 
 // camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height);
-camera.position.z = 3;
+camera.position.x = 2;
+camera.position.y = 2;
+camera.position.z = 2;
+camera.lookAt(mesh.position);
 scene.add(camera);
 
 // renderer
@@ -27,20 +30,14 @@ const canvas = document.querySelector("#webgl");
 const renderer = new THREE.WebGLRenderer({ canvas });
 renderer.setSize(sizes.width, sizes.height);
 
-gsap.to(mesh.position, {
-  x: 2,
-  duration: 1,
-  delay: 1,
-});
-
-gsap.to(mesh.position, {
-  x: 0,
-  duration: 1,
-  delay: 2,
-});
-
+// clock
+const clock = new THREE.Clock();
 // animation
 const loop = () => {
+  const elapsedTime = clock.getElapsedTime();
+  // update
+  mesh.rotation.y = elapsedTime;
+
   // render
   renderer.render(scene, camera);
 
