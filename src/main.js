@@ -1,6 +1,15 @@
-import gsap from "gsap";
 import * as THREE from "three";
 import "./style.css";
+
+// cursor
+const cursor = {
+  x: 0,
+  y: 0,
+};
+window.addEventListener("mousemove", (event) => {
+  cursor.x = event.clientX / sizes.width - 0.5;
+  cursor.y = -(event.clientY / sizes.height - 0.5);
+});
 
 const scene = new THREE.Scene();
 
@@ -19,9 +28,9 @@ const sizes = {
 
 // camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height);
-camera.position.x = 2;
-camera.position.y = 2;
-camera.position.z = 2;
+// camera.position.x = 2;
+// camera.position.y = 2;
+camera.position.z = 3;
 camera.lookAt(mesh.position);
 scene.add(camera);
 
@@ -35,9 +44,11 @@ const clock = new THREE.Clock();
 // animation
 const loop = () => {
   const elapsedTime = clock.getElapsedTime();
-  // update
-  mesh.rotation.y = elapsedTime;
-
+  // update camera
+  camera.position.x = Math.sin(cursor.x * Math.PI * 2) * 2;
+  camera.position.z = Math.cos(cursor.x * Math.PI * 2) * 2;
+  camera.position.y = cursor.y * 5;
+  camera.lookAt(mesh.position);
   // render
   renderer.render(scene, camera);
 
