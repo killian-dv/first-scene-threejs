@@ -1,20 +1,10 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-import "./style.css";
 
 // canvas
-const canvas = document.querySelector("#webgl");
+const canvas = document.querySelector("canvas.webgl");
 
-// cursor
-const cursor = {
-  x: 0,
-  y: 0,
-};
-window.addEventListener("mousemove", (event) => {
-  cursor.x = event.clientX / sizes.width - 0.5;
-  cursor.y = -(event.clientY / sizes.height - 0.5);
-});
-
+// scene
 const scene = new THREE.Scene();
 
 // object
@@ -26,9 +16,22 @@ scene.add(mesh);
 
 // sizes
 const sizes = {
-  width: 800,
-  height: 600,
+  width: window.innerWidth,
+  height: window.innerHeight,
 };
+
+window.addEventListener("resize", () => {
+  // update sizes
+  sizes.width = window.innerWidth;
+  sizes.height = window.innerHeight;
+
+  // update camera
+  camera.aspect = sizes.width / sizes.height;
+  camera.updateProjectionMatrix();
+
+  // update renderer
+  renderer.setSize(sizes.width, sizes.height);
+});
 
 // camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height);
