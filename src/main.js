@@ -4,8 +4,18 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import gsap from "gsap";
 
 // gui debug
-const gui = new GUI();
+const gui = new GUI({
+  width: 300,
+  title: "Debug",
+});
+// gui.hide();
 const debugObject = {};
+
+window.addEventListener("keydown", (event) => {
+  if (event.key === "h") {
+    gui.show(gui._hidden);
+  }
+});
 
 // canvas
 const canvas = document.querySelector("canvas.webgl");
@@ -23,10 +33,13 @@ const material = new THREE.MeshBasicMaterial({
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
 
-gui.add(mesh.position, "y").min(-3).max(3).step(0.01).name("elevation");
-gui.add(mesh, "visible");
-gui.add(material, "wireframe");
-gui.addColor(debugObject, "color").onChange(() => {
+// gui
+// create folder
+const cubeTweaks = gui.addFolder("Cube");
+cubeTweaks.add(mesh.position, "y").min(-3).max(3).step(0.01).name("elevation");
+cubeTweaks.add(mesh, "visible");
+cubeTweaks.add(material, "wireframe");
+cubeTweaks.addColor(debugObject, "color").onChange(() => {
   material.color.set(debugObject.color);
 });
 
@@ -35,9 +48,9 @@ debugObject.spin = () => {
     y: mesh.rotation.y + Math.PI * 2,
   });
 };
-gui.add(debugObject, "spin");
+cubeTweaks.add(debugObject, "spin");
 debugObject.subdivision = 2;
-gui
+cubeTweaks
   .add(debugObject, "subdivision")
   .min(1)
   .max(20)
