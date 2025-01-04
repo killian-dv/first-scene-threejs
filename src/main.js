@@ -1,5 +1,11 @@
+import GUI from "lil-gui";
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import gsap from "gsap";
+
+// gui debug
+const gui = new GUI();
+const debugObject = {};
 
 // canvas
 const canvas = document.querySelector("canvas.webgl");
@@ -8,10 +14,25 @@ const canvas = document.querySelector("canvas.webgl");
 const scene = new THREE.Scene();
 
 // object
+debugObject.color = "#4799e6";
 const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2);
-const material = new THREE.MeshBasicMaterial({ color: "#ff0000" });
+const material = new THREE.MeshBasicMaterial({ color: debugObject.color });
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
+
+gui.add(mesh.position, "y").min(-3).max(3).step(0.01).name("elevation");
+gui.add(mesh, "visible");
+gui.add(material, "wireframe");
+gui.addColor(debugObject, "color").onChange(() => {
+  material.color.set(debugObject.color);
+});
+
+debugObject.spin = () => {
+  gsap.to(mesh.rotation, {
+    y: mesh.rotation.y + Math.PI * 2,
+  });
+};
+gui.add(debugObject, "spin");
 
 // sizes
 const sizes = {
