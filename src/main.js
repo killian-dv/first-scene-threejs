@@ -26,8 +26,12 @@ const scene = new THREE.Scene();
 // textures
 const loadingManager = new THREE.LoadingManager();
 const textureLoader = new THREE.TextureLoader(loadingManager);
-const colorTexture = textureLoader.load("/textures/door/color.jpg");
+const colorTexture = textureLoader.load("/textures/minecraft.png");
 colorTexture.colorSpace = THREE.SRGBColorSpace;
+
+colorTexture.generateMipmaps = false;
+colorTexture.minFilter = THREE.NearestFilter;
+colorTexture.magFilter = THREE.NearestFilter;
 
 // object
 debugObject.color = "#4799e6";
