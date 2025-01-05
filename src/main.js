@@ -1,14 +1,14 @@
+import gsap from "gsap";
 import GUI from "lil-gui";
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-import gsap from "gsap";
 
 // gui debug
 const gui = new GUI({
   width: 300,
   title: "Debug",
 });
-// gui.hide();
+gui.hide();
 const debugObject = {};
 
 window.addEventListener("keydown", (event) => {
@@ -23,12 +23,19 @@ const canvas = document.querySelector("canvas.webgl");
 // scene
 const scene = new THREE.Scene();
 
+// textures
+const loadingManager = new THREE.LoadingManager();
+const textureLoader = new THREE.TextureLoader(loadingManager);
+const colorTexture = textureLoader.load("/textures/door/color.jpg");
+colorTexture.colorSpace = THREE.SRGBColorSpace;
+
 // object
 debugObject.color = "#4799e6";
 const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2);
 const material = new THREE.MeshBasicMaterial({
-  color: debugObject.color,
-  wireframe: true,
+  // color: debugObject.color,
+  // wireframe: true,
+  map: colorTexture,
 });
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
@@ -131,13 +138,6 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 const clock = new THREE.Clock();
 // animation
 const loop = () => {
-  const elapsedTime = clock.getElapsedTime();
-  // update camera
-  // camera.position.x = Math.sin(cursor.x * Math.PI * 2) * 2;
-  // camera.position.z = Math.cos(cursor.x * Math.PI * 2) * 2;
-  // camera.position.y = cursor.y * 5;
-  // camera.lookAt(mesh.position);
-
   // update controls
   controls.update();
 
